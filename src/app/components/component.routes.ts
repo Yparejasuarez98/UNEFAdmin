@@ -4,22 +4,30 @@ import { VotesMixtaDetailComponent } from './votes-mixta/votes-mixta-detail/vote
 import { VotesMixtaComponent } from './votes-mixta/votes-mixta.component';
 import { ViewResultComponent } from './votes-mixta/view-result/view-result.component';
 import { VoteDetailComponent } from './vote-detail/vote-detail.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const COMPONENT_ROUTES: Routes = [
     {
         path: '',
-        component: VotesAdminComponent
-    },
-    {
-        path: 'detalle',
-        component: VoteDetailComponent
-    },
-    {
-        path: 'resultados',
-        component: ViewResultComponent,
-    },
-    {
-        path: 'detalle-mixto',
-        component: VotesMixtaDetailComponent
+        component: DashboardComponent,
+        children: [
+            {
+                path: 'votos',
+                component: VotesAdminComponent
+            },
+            {
+                path: 'detalle',
+                component: VoteDetailComponent
+            },
+            {
+                path: 'resultados',
+                component: ViewResultComponent,
+            },
+            {
+                path: 'detalle-mixto',
+                component: VotesMixtaDetailComponent
+            },
+            { path: 'votaciones', component: VotesMixtaComponent },
+        ]
     }
 ]

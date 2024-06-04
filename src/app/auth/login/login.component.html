@@ -7,8 +7,8 @@
     </div>
     <div class="container-body">
         <mat-form-field class="width">
-            <input matInput placeholder="Código" [formControl]="code" type="password" required>
-            <mat-icon matSuffix>visibility</mat-icon>
+            <input matInput placeholder="Código" [formControl]="code" [type]="hide ? 'password' : 'text'" required>
+            <mat-icon matSuffix (click)="toggleVisibility()">{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
         </mat-form-field>
         <div>
             <button mat-raised-button class="width" (click)="login()">Iniciar Sesión</button>

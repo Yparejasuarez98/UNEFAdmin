@@ -19,20 +19,16 @@ export class MenuComponent {
 
   }
 
-  redirect() {
-    this.router.navigateByUrl('/votos');
-  }
-
   redirectCompany() {
-    this.router.navigateByUrl('votos');
+    this.router.navigate(['votos']);
   }
 
   redirectResults() {
-    this.router.navigateByUrl('votaciones');
+    this.router.navigate(['votaciones']);
   }
 
   logout() {
     localStorage.clear();
-    this.router.navigateByUrl('login');
+    this.router.navigate(['login']);
   }
 }

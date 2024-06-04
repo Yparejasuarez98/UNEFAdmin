@@ -18,8 +18,13 @@ import Swal from 'sweetalert2';
 export class LoginComponent {
 
   code = new FormControl<string>('', Validators.required);
+  hide = true;
 
   constructor(private router: Router, private loginService: LoginService) {}
+
+  toggleVisibility(): void {
+    this.hide = !this.hide;
+  }
 
   login() {
     this.code.markAllAsTouched()

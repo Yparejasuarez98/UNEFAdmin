@@ -23,7 +23,8 @@ import { Section } from '../votes-admin/models/votes-admin';
 export class VotesMixtaComponent implements OnInit {
 
   listSections: Sections[] = [];
-  round = new FormControl(0);
+  round = new FormControl({"total_votos_round_section_emited":0,"round":1});
+  listadoRoundsEmited: { [key: string]: any } = {  };
 
   constructor(private router: Router, private votesMixtaService: VotesMixtaService, private sharedService: SharedService) {
 
@@ -31,6 +32,9 @@ export class VotesMixtaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInfoVotes();
+    this.round.valueChanges.subscribe((value: any) => {
+      console.log('El valor del control ha cambiado:', value);
+    });
   }
 
 
@@ -47,7 +51,7 @@ export class VotesMixtaComponent implements OnInit {
 
   redirect(section: Sections) {
     this.sharedService.setResult(section);
-    this.router.navigateByUrl('votos/resultados');
+    this.router.navigate(['/resultados']);
   }
 
   getInfoVotes() {
@@ -64,8 +68,13 @@ export class VotesMixtaComponent implements OnInit {
     });
   }
 
-  getRules(event: number, section: Sections) {
-    this.votesMixtaService.getRule(event, section.section).subscribe({
+  getRoundData(section: any,index: number) {
+    return section?.rounds?.[index].total_votos_round_section_emited;
+  }
+
+  getRules(event: any, section: Sections) {
+    this.listadoRoundsEmited[section.section] = event;
+    this.votesMixtaService.getRule(event.round, section.section).subscribe({
       next: (res: Rule[]) => {
         if (res.length > 0) {
           section.porcentageDirect = res[0].rule.toFixed(1);
@@ -80,11 +89,11 @@ export class VotesMixtaComponent implements OnInit {
     });
   }
 
-  
+
   goToDetail(section: Section) {
-    section.roundActual = this.round?.value;
+    section.roundActual = this.round.value?.round;
     this.sharedService.setDetailMix(section);
-    this.router.navigate(['votos/detalle-mixto']);
+    this.router.navigate(['/detalle-mixto']);
   }
 
 }

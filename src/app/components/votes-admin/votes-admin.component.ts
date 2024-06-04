@@ -67,15 +67,15 @@ export class VotesAdminComponent {
   }
 
   redirect() {
-    this.router.navigateByUrl('/votos');
+    this.router.navigate(['/votos']);
   }
 
   redirectCompany() {
-    this.router.navigateByUrl('votos');
+    this.router.navigate(['votos']);
   }
 
   redirectResults() {
-    this.router.navigateByUrl('votaciones');
+    this.router.navigate(['votaciones']);
   }
 
   updateEnterpriseAsist(enterprise: Enterprise) {
@@ -104,7 +104,7 @@ export class VotesAdminComponent {
   }
 
   getEnterprise(currentPage: number) {
-    this.votesAdminService.getEnterprise(this.section?.value, this.type?.value, currentPage, this.itemsPerPage).subscribe({
+    this.votesAdminService.getEnterprise(this.company?.value, this.section?.value.section, this.type?.value, this.nif?.value, currentPage, this.itemsPerPage).subscribe({
       next: (res: ResponsePagination) => {
         this.listEnterprise = res.data;
         this.totalPageEnterprise = res.total_records;

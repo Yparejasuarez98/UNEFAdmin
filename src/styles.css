@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+    --primary-color: #369975;
+    --secondary-color: #F3AC54;
+    --background-color-button-total: #344971;
+    --background-color-button-missing: #FAC710;
+    --background-color-button-delegates: #808080;
+    --color-white: #FFFFFF;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.white {
+    color: var(--color-white) !important;
+}
+
+.color-primary {
+    color: var(--primary-color) !important;
+}
+
+.secondary-color {
+    color: var(--secondary-color);
+}
+
+.secondary-color-back {
+    background-color: var(--secondary-color) !important;
+}
+
+.primary-color-back {
+    background-color: var(--primary-color) !important;
+}
+
+.vote-total {
+    background-color: var(--background-color-button-total) !important;
+    color: var(--color-white) !important;
+    padding-left: 10px;
+    padding-top: 3px;
+}
+
+.vote-missing {
+    background-color: var(--background-color-button-missing) !important;
+    color: var(--color-white) !important;
+    padding-left: 10px;
+    padding-top: 3px;
+}
+
+.vote-delegates {
+    background-color: var(--background-color-button-delegates) !important;
+    color: var(--color-white) !important;
+    padding-left: 10px;
+    padding-top: 3px;
+}
+
+.vote-register {
+    background-color: var(--primary-color) !important;
+    color: var(--color-white) !important;
+    padding-left: 10px;
+    padding-top: 3px;
+}
+
+.votes {
+    height: 30px;
+    width: 200px;
+    margin-top: 10px;
+    border-radius: 10px;
+}

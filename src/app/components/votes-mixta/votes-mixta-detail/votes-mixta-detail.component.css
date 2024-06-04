@@ -1,0 +1,25 @@
+.button-search {
+    width: 18%;
+    height: 45px;
+}
+
+.input-field-large {
+    margin-right: 30px;
+    width: 300px !important;
+}
+
+.input-field{
+    margin-right: 30px;
+    width: 200px !important;
+}
+
+
+.icon-download-large{
+    font-size: 42px;
+    cursor: pointer;
+}
+
+
+.d-flex.justify-content-end {
+    justify-content: flex-end !important;
+}

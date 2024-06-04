@@ -1,0 +1,40 @@
+<mat-sidenav-container class="container-menu">
+    <mat-sidenav class="sidenav-menu" mode="side" opened>
+        <div class="user">
+            <img src="../../../assets/imgs/UNEF.png" alt="Logo UNEF" class=" m-3" (click)="redirect()" />
+        </div>
+        <ul>
+            <li>
+                <a routerLink="votos" routerLinkActive="active">
+                    <div class="icon-text-container" (click)="redirectCompany()">
+                        <mat-icon class="icono">person</mat-icon>
+                        <span>Empresas asociadas</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a routerLink="resultados" routerLinkActive="active">
+                    <div class="icon-text-container" (click)="redirectResults()">
+                        <mat-icon class="icono">notifications</mat-icon>
+                        <span>Votaciones</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <mat-toolbar class="header">
+            <div class="nav-menu col">
+                <button mat-button [matMenuTriggerFor]="close">
+                    <mat-icon class="icon-menu m-2">person_pin</mat-icon>
+                </button>
+                <mat-menu #close="matMenu">
+                    <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+                </mat-menu>
+            </div>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

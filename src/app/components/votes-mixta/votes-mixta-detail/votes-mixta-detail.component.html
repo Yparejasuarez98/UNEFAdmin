@@ -1,0 +1,98 @@
+<div class="container">
+    <h1 class="secondary-color my-5">Sección {{filterInit.section}} - Detalle vuelta {{filterInit.roundActual}}</h1>
+    <form [formGroup]="formMixtaDetalle">
+        <div class="d-flex">
+            <div class="row">
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-12">
+                    <mat-label>Empresa asociada votante</mat-label>
+                    <input type="text" matInput formControlName="name" [matAutocomplete]="auto"
+                        (keyup)="getEnterprise($event)">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        @for (enterprise of filteredOptions | async; track $index) {
+                        <mat-option [value]="enterprise">
+                            {{ enterprise.name }}
+                        </mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-12">
+                    <mat-label>NIF votante</mat-label>
+                    <input type="text" matInput formControlName="nif">
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-12">
+                    <mat-label>Tipo</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option>Selecciona un tipo</mat-option>
+                        <mat-option value="default">Vota</mat-option>
+                        <mat-option value="delegate">Delega</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-12">
+                    <mat-label>Empresavotada</mat-label>
+                    <input type="text" matInput formControlName="nameVote" [matAutocomplete]="autoo"
+                        (keyup)="getEnterpriseVote($event)">
+                    <mat-autocomplete #autoo="matAutocomplete" [displayWith]="displayFnVote">
+                        @for (enterprise of filteredOptionsVote | async; track $index) {
+                        <mat-option [value]="enterprise">
+                            {{ enterprise.name }}
+                        </mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-lg-4 col-md-4 col-sm-12">
+                    <mat-label>NIF votada</mat-label>
+                    <input type="text" matInput formControlName="nifVotes">
+                </mat-form-field>
+                <button class="button-search white primary-color-back" mat-raised-button (click)="getVoteFilter(1)">Buscar</button>
+            </div>
+        </div>
+    </form>
+    <div class="d-flex justify-content-end">
+        <div class="icon-download">
+            <span class="color-primary icon-download-large">
+                <i class="bi bi-file-earmark-excel-fill"></i>
+            </span>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="color-primary">Empresa asociada que voto</th>
+                <th scope="col" class="color-primary">NIF empresa que voto</th>
+                <th scope="col" class="color-primary">Sección</th>
+                <th scope="col" class="color-primary">Cantidad votos</th>
+                <th scope="col" class="color-primary">Empresa asociada a quien se le voto</th>
+                <th scope="col" class="color-primary">NIF empresa a quien se le voto</th>
+                <th scope="col" class="color-primary">Tipo Vota/Delega</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (listDetail.length> 0) {
+            @for (detail of listDetail | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems:
+            totalPage }; track $index) {
+            <tr>
+                <td>{{detail.name}}</td>
+                <td>{{detail.nif}}</td>
+                <td>{{detail.section}}</td>
+                <td>{{detail.votes}}</td>
+                <td>{{detail.name_vote}}</td>
+                <td>{{detail.nif_votes}}</td>
+                <td>
+                    <mat-form-field>
+                        <mat-label>Vota/Delega</mat-label>
+                        <mat-select [(value)]="detail.type">
+                            <mat-option value="default">Vota</mat-option>
+                            <mat-option value="delegate">Delega</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </tr>
+            }
+            }@else {
+            <p>No hay votos para mostrar</p>
+            }
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
+</div>

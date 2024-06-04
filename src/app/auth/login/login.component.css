@@ -1,0 +1,28 @@
+h4 {
+    color: var(--primary-color);
+    font-weight: 800;
+    text-align: center;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+    background-color: var(--primary-color);
+    color: var(--color-white);
+}
+
+.width {
+    width: 400px;
+}
+
+@media (max-width: 450px) {
+    .width {
+        width: 100%
+    }
+}

@@ -1,0 +1,82 @@
+<div class="container">
+    <h2 class="secondary-color mt-4">EMPRESAS ASOCIADAS</h2>
+    <form [formGroup]="formAdmin">
+        <div class="d-flex">
+            <div class="row">
+                <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
+                    <mat-label>Buscar Empresa</mat-label>
+                    <input type="text" matInput formControlName="company">
+                </mat-form-field>
+                <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
+                    <mat-label>NIF</mat-label>
+                    <input type="text" matInput formControlName="nif">
+                </mat-form-field>
+                <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
+                    <mat-label>Sección</mat-label>
+                    <mat-select formControlName="section">
+                        @for (section of listSection; track $index) {
+                        <mat-option [value]="section._id">{{section.section}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-lg- col-md-2 col-sm-6">
+                    <mat-label>Tipo</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option>Selecciona un tipo</mat-option>
+                        <mat-option value="default">Vota</mat-option>
+                        <mat-option value="delegate">Delega</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="col-lg-1 col-md-1 col-sm-6">
+                    <button class="button-filter primary-color-back white" mat-raised-button (click)="getEnterprise(1)">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <table class="table mt-5">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="color-primary">Empresa asociada</th>
+                <th scope="col" class="color-primary">NIF</th>
+                <th scope="col" class="color-primary">Sección</th>
+                <th scope="col" class="color-primary">Email de contacto</th>
+                <th scope="col" class="color-primary">País</th>
+                <th scope="col" class="color-primary">Código acceso</th>
+                <th scope="col" class="color-primary">Asistencia</th>
+                <th scope="col" class="color-primary">Tipo Vota/Delega</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (enterprise of listEnterprise | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalPageEnterprise }; track
+            $index ) {
+            <tr>
+                <td>{{enterprise.name}}</td>
+                <td>{{enterprise.nif}}</td>
+                <td>{{enterprise.section}}</td>
+                <td>{{enterprise.email}}</td>
+                <td>{{enterprise.contry}}</td>
+                <td>{{enterprise.code}}</td>
+                <td>
+                    <section>
+                        <mat-slide-toggle color="primary" [(ngModel)]="enterprise.status"
+                            (change)="updateEnterpriseAsist(enterprise)">
+                        </mat-slide-toggle>
+                    </section>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <mat-label>Vota/Delega</mat-label>
+                        <mat-select [(value)]="enterprise.type_vote" (selectionChange)="openDialog(enterprise)">
+                            <mat-option>Selecciona una opcion</mat-option>
+                            <mat-option value="default">Vota</mat-option>
+                            <mat-option value="delegate">Delega</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
+</div>

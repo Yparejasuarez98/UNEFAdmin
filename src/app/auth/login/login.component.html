@@ -1,0 +1,17 @@
+<div class="container">
+    <div>
+        <img src="../../../assets/imgs/UNEF.png" alt="">
+    </div>
+    <div>
+        <h4 class="width">Ingresa el código previamente enviado para ingresar</h4>
+    </div>
+    <div class="container-body">
+        <mat-form-field class="width">
+            <input matInput placeholder="Código" [formControl]="code" type="password" required>
+            <mat-icon matSuffix>visibility</mat-icon>
+        </mat-form-field>
+        <div>
+            <button mat-raised-button class="width" (click)="login()">Iniciar Sesión</button>
+        </div>
+    </div>
+</div>

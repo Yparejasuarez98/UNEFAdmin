@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="m-4">
+        <h2 class="secondary-color title">Votaciones</h2>
+        <ng-container *ngFor="let section of listSections; let i = index">
+            <mat-card class="m-3" [ngClass]="section.status ? 'content-card' : 'content-card-init'">
+                <mat-card-header>
+                    <mat-card-title></mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="f-flex mb-4">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <h2 [ngClass]="section.status ? 'white' : 'secondary-color'">{{section.section}}
+                                    ({{section.vocales_total_default}})</h2>
+                            </div>
+                            <mat-form-field class="col-lg-4 col-md-6 col-sm-12">
+                                <mat-label>VUELTAS</mat-label>
+                                <mat-select [formControl]="round" (valueChange)="getRules($event, section)">
+                                    <ng-container *ngIf="section.rounds">
+                                        <mat-option value="0">Seleccione una ronda</mat-option>
+                                        <mat-option *ngFor="let round of section.rounds" [value]="round['round']">Ronda
+                                            {{round['round']}}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                <div class="tittles">
+                                    <div class="color-primary">
+                                        <h5>% Pase directo: {{section.porcentageDirect + '%'}}</h5>
+                                    </div>
+                                    <div class="color-primary">
+                                        <h5>Cantidad votos Pase directo: {{section.quantityVotes}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12">
+                            <p class="color-primary">VOTOS TOTALES</p>
+                            <p class="span-text" [ngClass]="section.status ? 'white' : 'secondary-color'">
+                                {{section.total_votes_section_default}}</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12">
+                            <p class="color-primary">EMPRESAS PARTICIPANTES</p>
+                            <p class="span-text" [ngClass]="section.status ? 'white' : 'secondary-color'">
+                                {{section.enterprise_count}}</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12">
+                            <p class="color-primary">VOTOS EMITIDOS</p>
+                            <p class="span-text" [ngClass]="section.status ? 'white' : 'secondary-color'">0</p>
+                        </div>
+                        <div class="col-lg-4 col-md-2 col-sm-12">
+                            <div class="flex-column">
+                                <span class="color-primary">VOTOS PRESENCIAL: <span class="span-text"
+                                        [ngClass]="section.status ? 'white' : 'secondary-color'">{{section.vote_present}}</span></span>
+                                <span class="color-primary">VOTOS DELEGADOS: <span class="span-text"
+                                        [ngClass]="section.status ? 'white' : 'secondary-color'">{{section.vote_delegate}}</span></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12">
+                            @if (section.status) {
+                            <button mat-raised-button class="primary-color-back white" (click)="redirect(section)">Ver
+                                resultados</button>
+                            <div class="seeDetail color-primary">
+                                <p (click)="goToDetail(section)" class="cursor"><mat-icon>redo</mat-icon> Ver detalle de
+                                    votación por socio</p>
+                            </div>
+                            }
+                            @if(!section.status) {
+                            <button mat-raised-button class=" white"
+                                [ngClass]="section.status ? 'primary-color-back' : 'back-grey'"
+                                (click)="nextRound(section)">Iniciar
+                                votación</button>
+                            }
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+    </div>
+</div>

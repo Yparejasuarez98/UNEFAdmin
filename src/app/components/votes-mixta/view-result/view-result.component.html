@@ -1,0 +1,34 @@
+<div class="container">
+    <h1 class="secondary-color my-5">Sección Mixta</h1>
+
+    <div class="header-container">
+        
+    </div>
+
+    <table class="table mt-5">
+        <thead>
+            <tr>
+                <th scope="col">Socio</th>
+                <th scope="col">Vuelta</th>
+                <th scope="col">Votos</th>
+                <th scope="col">% Votos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (listResult.length > 0) {
+            @for (result of listResult | paginate: { itemsPerPage: 10, currentPage: p }; track $index) {
+            <tr>
+                <th>{{result.name}}</th>
+                <td>{{result.round}}</td>
+                <td>{{result.total_votes}}</td>
+                <td>{{result.porcent}}</td>
+            </tr>
+            }
+
+            } @else {
+                <p>No hay votos para mostrar</p>
+            }
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+</div>

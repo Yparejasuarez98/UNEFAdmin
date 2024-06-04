@@ -1,0 +1,104 @@
+.example-container {
+    width: 100%;
+    height: 100vh;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  
+  .example-sidenav {
+    padding: 20px;
+  }
+  
+  .secondary-color {
+    font-weight: 600;
+  }
+  
+  .button-filter {
+    color: var(--color-white);
+    background-color: var(--primary-color);
+  }
+  
+  .active-link {
+    font-weight: bold !important;
+    color: blue !important;
+  }
+  
+  ul {
+    list-style-type: none;
+  }
+  
+  li {
+    margin-top: 25px;
+  }
+  
+  .header {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .container-menu {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #EFF3F3;
+  }
+  
+  .icono-user {
+    left: auto;
+  }
+  
+  .icon-text-container {
+    display: flex;
+    align-items: center;
+    /* Centra verticalmente los elementos */
+  }
+  
+  .icono {
+    font-size: inherit;
+    /* Hereda el tamaño de fuente del elemento padre */
+    margin-right: 6px;
+    /* Espacio entre el icono y el texto */
+    margin-top: 5px
+  }
+  
+  .nav-menu {
+    justify-content: right;
+    display: flex;
+    align-content: center;
+  }
+  
+  img {
+    width: 89%;
+    cursor: pointer;
+  }
+  
+  ul li a {
+    display: block;
+    margin-right: 30px;
+    margin-bottom: -17px;
+    text-decoration: none;
+    padding: 5px;
+    font-size: large;
+    font-weight: bold;
+    color: var(--blue-color) !important;
+    transition: background-color 0.3s ease;
+  }
+  
+  ul li a:hover,
+  ul li a.active {
+    /* background-color: #dc9420; */
+    color: #ea950c !important;
+    border-bottom: 2px solid var(--primary-color);
+  
+  }
+  .icon-download-large{
+    font-size: 42px;
+    cursor: pointer;
+  }
+  
+  

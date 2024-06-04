@@ -23,3 +23,23 @@
 .d-flex.justify-content-end {
     justify-content: flex-end !important;
 }
+
+.clean {
+    margin-left: 20px;
+}
+
+.xlsx {
+    width: 3%;
+}
+
+@media (max-width: 1200px) {
+    .xlsx {
+      width:5%
+    }
+  }
+
+  @media (max-width: 838px) {
+    .xlsx {
+      width:10%
+    }
+  }

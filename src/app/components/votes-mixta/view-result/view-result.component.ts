@@ -7,11 +7,12 @@ import { VotesMixtaService } from '../services/votes-mixta.service';
 import Swal from 'sweetalert2';
 import { ViewResult } from './models/view-result';
 import { SharedService } from '../../../shared/services/shared.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-view-result',
   standalone: true,
-  imports: [MatTableModule, NgxPaginationModule],
+  imports: [MatTableModule, NgxPaginationModule, CommonModule],
   templateUrl: './view-result.component.html',
   styleUrl: './view-result.component.css'
 })
@@ -20,10 +21,11 @@ export class ViewResultComponent implements OnInit {
   p = 1;
   dataResult: any;
   listResult: ViewResult[] = [];
-
+  section: any;
   constructor(private router: Router, private votesMixtaService: VotesMixtaService, private sharedService: SharedService) { }
 
   ngOnInit(): void {
+    this.section = localStorage.getItem('section');
     this.sharedService.getResult().subscribe(res => {
       this.dataResult = res;
     });
@@ -31,7 +33,7 @@ export class ViewResultComponent implements OnInit {
   }
 
   getResult() {
-    this.votesMixtaService.getDashboard(this.dataResult.section).subscribe({
+    this.votesMixtaService.getDashboard(this.dataResult.section ? this.dataResult.section: this.section).subscribe({
       next: (res: ViewResult[]) => {
         this.listResult = res;
       }, error: (err) => {

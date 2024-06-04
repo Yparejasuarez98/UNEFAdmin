@@ -18,7 +18,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 import { Enterprise } from '../../votes-admin/models/votes-admin';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-votes-mixta-detail',
   standalone: true,
@@ -38,8 +38,9 @@ export class VotesMixtaDetailComponent implements OnInit {
   filteredOptions: Observable<Enterprise[]>;
   listEnterpriseVote: Enterprise[] = [];
   filteredOptionsVote: Observable<Enterprise[]>;
-
-  constructor(private fb: FormBuilder, private votesMixtaService: VotesMixtaService, private sharedService: SharedService, private votesAdminService: VotesAdminService, ) {
+  section: any;
+  round: any;
+  constructor(private fb: FormBuilder, private votesMixtaService: VotesMixtaService, private sharedService: SharedService, private votesAdminService: VotesAdminService,) {
     this.formMixtaDetalle = this.fb.group({
       name: '',
       nif: '',
@@ -50,13 +51,15 @@ export class VotesMixtaDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.section = localStorage.getItem('section');
+    this.round = localStorage.getItem('round');
     this.getDetail();
     this.getVoteFilter(1);
     this.getEnterprise('');
     this.getEnterpriseVote('');
   }
 
-  
+
   getDetail() {
     this.sharedService.getDetailMix().subscribe(res => {
       this.filterInit = res;
@@ -73,7 +76,7 @@ export class VotesMixtaDetailComponent implements OnInit {
   }
 
   getEnterprise(event: any) {
-    this.votesAdminService.getEnterpriseAutocomplete(event !== '' ? event.target.value : '', this.filterInit.section, 'default', 1, 1000).subscribe({
+    this.votesAdminService.getEnterpriseAutocomplete(event !== '' ? event.target.value : '', this.filterInit.section ? this.filterInit.section : this.section, 'default', 1, 1000).subscribe({
       next: (res) => {
         this.listEnterprise = res.data;
         this.filteredOptions = this.name!.valueChanges.pipe(
@@ -99,10 +102,10 @@ export class VotesMixtaDetailComponent implements OnInit {
   }
 
   getEnterpriseVote(event: any) {
-    this.votesAdminService.getEnterpriseAutocomplete(event !== '' ? event.target.value : '', this.filterInit.section, 'default', 1, 1000).subscribe({
+    this.votesAdminService.getEnterpriseAutocomplete(event !== '' ? event.target.value : '', this.filterInit.section ? this.filterInit.section : this.section, 'default', 1, 1000).subscribe({
       next: (res) => {
         this.listEnterpriseVote = res.data;
-        this.filteredOptionsVote = this.name!.valueChanges.pipe(
+        this.filteredOptionsVote = this.nameVote!.valueChanges.pipe(
           startWith(''),
           map(value => {
             const name = typeof value === 'string' ? value : value?.['name'];
@@ -115,11 +118,10 @@ export class VotesMixtaDetailComponent implements OnInit {
     });
   }
 
-
   getVoteFilter(currentPage: number) {
-    this.votesMixtaService.getVotFilterAdmin(this.filterInit.roundActual, this.filterInit.section, this.type?.value, this.name?.value, this.nameVote?.value, this.nif?.value, this.nifVotes?.value, currentPage, this.itemsPerPage).subscribe({
+    this.votesMixtaService.getVotFilterAdmin(this.filterInit.roundActual, this.filterInit.section ? this.filterInit.section : this.section, this.type?.value, this.name?.value.name, this.nameVote?.value.name, this.nif?.value, this.nifVotes?.value, currentPage, this.itemsPerPage).subscribe({
       next: (res: ResponsePagination) => {
-        this.listDetail = res.data.data;
+        this.listDetail = res.data;
         this.totalPage = res.total_results!;
         this.itemsPerPage = res.per_page;
       }, error: (err) => {
@@ -131,6 +133,32 @@ export class VotesMixtaDetailComponent implements OnInit {
   onPageChange(event: number): void {
     this.currentPage = event;
     this.getVoteFilter(this.currentPage);
+  }
+
+  downloadExcel() {
+    this.votesAdminService.downloadExcelVotes(this.filterInit.section ? this.filterInit.section : this.section, this.round).subscribe({
+      next: (res: any) => {
+        this.exportToExcel(res, 'Votos');
+      }, error: (err) => {
+        Swal.fire('Error!', 'No se pudo generar el csv', 'error');
+      }
+    });
+  }
+
+  exportToExcel(data: any[], filename: string): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, `${filename}.xlsx`);
+  }
+
+  clear() {
+    this.name?.setValue('');
+    this.nif?.setValue('');
+    this.type?.setValue('');
+    this.nameVote?.setValue('');
+    this.nifVotes?.setValue('');
+    this.getVoteFilter(1);
   }
 
   get name() { return this.formMixtaDetalle.get('name') }

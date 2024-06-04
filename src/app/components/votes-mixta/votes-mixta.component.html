@@ -67,6 +67,7 @@
                             @if (section.status) {
                             <button mat-raised-button class="primary-color-back white" (click)="redirect(section)">Ver
                                 resultados</button>
+                                <button mat-raised-button class="back-grey white mt-2" (click)="nextRound(section)">Siguiente ronda</button>
                             <div class="seeDetail color-primary">
                                 <p (click)="goToDetail(section)" class="cursor"><mat-icon>redo</mat-icon> Ver detalle de
                                     votación por socio</p>

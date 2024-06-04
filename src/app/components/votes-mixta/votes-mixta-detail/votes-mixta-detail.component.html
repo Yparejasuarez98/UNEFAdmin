@@ -1,5 +1,6 @@
 <div class="container">
-    <h1 class="secondary-color my-5">Sección {{filterInit.section}} - Detalle vuelta {{filterInit.roundActual}}</h1>
+    <h1 class="secondary-color my-5">Sección {{filterInit.section ? filterInit.section : section}} - Detalle vuelta
+        {{filterInit.roundActual ? filterInit.roundActual :round }}</h1>
     <form [formGroup]="formMixtaDetalle">
         <div class="d-flex">
             <div class="row">
@@ -28,7 +29,7 @@
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="col-lg-4 col-md-4 col-sm-12">
-                    <mat-label>Empresavotada</mat-label>
+                    <mat-label>Empresa votada</mat-label>
                     <input type="text" matInput formControlName="nameVote" [matAutocomplete]="autoo"
                         (keyup)="getEnterpriseVote($event)">
                     <mat-autocomplete #autoo="matAutocomplete" [displayWith]="displayFnVote">
@@ -43,7 +44,15 @@
                     <mat-label>NIF votada</mat-label>
                     <input type="text" matInput formControlName="nifVotes">
                 </mat-form-field>
-                <button class="button-search white primary-color-back" mat-raised-button (click)="getVoteFilter(1)">Buscar</button>
+                <div class="mb-3">
+                    <button class="button-search white primary-color-back" mat-raised-button
+                        (click)="getVoteFilter(1)">Buscar</button>
+                    <button class="button-search clean white secondary-color-back" mat-raised-button
+                        (click)="clear()">Limpiar</button>
+                    <div align="end" class="mt-4 col-12">
+                        <img class="xlsx" src="../../../assets/imgs/xlsx.png" alt="" (click)="downloadExcel()">
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -77,14 +86,7 @@
                 <td>{{detail.votes}}</td>
                 <td>{{detail.name_vote}}</td>
                 <td>{{detail.nif_votes}}</td>
-                <td>
-                    <mat-form-field>
-                        <mat-label>Vota/Delega</mat-label>
-                        <mat-select [(value)]="detail.type">
-                            <mat-option value="default">Vota</mat-option>
-                            <mat-option value="delegate">Delega</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <td>{{detail.type === 'default' ? 'Vota' : 'Delega' }}
                 </td>
             </tr>
             }

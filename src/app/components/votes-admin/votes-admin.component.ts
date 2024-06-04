@@ -22,6 +22,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { ModalDelegationVotesComponent } from './modal-delegation-votes/modal-delegation-votes.component';
 import { ResponsePagination } from '../../shared/models/response';
+import { Observable, map, startWith } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-votes-admin',
@@ -40,9 +42,10 @@ export class VotesAdminComponent {
   itemsPerPage = 10;
   totalPageEnterprise = 0;
   menus: any[] = ['Empresas asociadas', 'Votaciones'];
-  // listEnterprise: Enterprise[] = [];
   listEnterprise: Enterprise[] = [];
   listSection: Section[] = [];
+  listEnterpriseAutocomplete: Enterprise[] = [];
+  filteredOptions: Observable<Enterprise[]>;
 
   private _mobileQueryListener: () => void;
 
@@ -64,6 +67,15 @@ export class VotesAdminComponent {
   ngOnInit() {
     this.getEnterprise(1);
     this.getSection();
+    this.getEnterpriseAutocomplete('');
+  }
+
+  reset() {
+    this.company?.setValue('');
+    this.nif?.setValue('');
+    this.section?.setValue('');
+    this.type?.setValue('');
+    this.getEnterprise(1);
   }
 
   redirect() {
@@ -78,6 +90,32 @@ export class VotesAdminComponent {
     this.router.navigate(['votaciones']);
   }
 
+  displayFn(enterprise: Enterprise): string {
+    return enterprise && enterprise.name ? enterprise.name : '';
+  }
+
+  private _filter(name: string): any[] {
+    const filterValue = name.toLowerCase();
+    return this.listEnterpriseAutocomplete.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
+  getEnterpriseAutocomplete(event: any) {
+    this.votesAdminService.getEnterpriseAutocomplete(event !== '' ? event.target.value : '', '', 'default', 1, 1000).subscribe({
+      next: (res) => {
+        this.listEnterpriseAutocomplete = res.data;
+        this.filteredOptions = this.company!.valueChanges.pipe(
+          startWith(''),
+          map(value => {
+            const name = typeof value === 'string' ? value : value?.['name'];
+            return name ? this._filter(name as string) : this.listEnterpriseAutocomplete.slice();
+          }),
+        );
+      }, error: (err) => {
+        Swal.fire("Error!", err.message, 'error');
+      }
+    });
+  }
+
   updateEnterpriseAsist(enterprise: Enterprise) {
     const assist = {
       nif: enterprise.nif,
@@ -85,8 +123,12 @@ export class VotesAdminComponent {
     }
     this.votesAdminService.updateEnterpriseAsist(assist).subscribe({
       next: (res) => {
-        Swal.fire('', 'Asistencia confirmada', 'success');
-        this.getEnterprise(1);
+        if (enterprise.status) {
+          Swal.fire('', 'Su asistencia ha sido confirmada exitosamente.', 'success');
+        } else {
+          Swal.fire('', 'No se registró asistencia.', 'info');
+        }
+        // this.getEnterprise(1);
       }, error: (err) => {
         Swal.fire('Erro!', err.message, 'error');
       }
@@ -104,7 +146,7 @@ export class VotesAdminComponent {
   }
 
   getEnterprise(currentPage: number) {
-    this.votesAdminService.getEnterprise(this.company?.value, this.section?.value.section, this.type?.value, this.nif?.value, currentPage, this.itemsPerPage).subscribe({
+    this.votesAdminService.getEnterprise(this.company?.value.name, this.section?.value.section, this.type?.value, this.nif?.value, currentPage, this.itemsPerPage).subscribe({
       next: (res: ResponsePagination) => {
         this.listEnterprise = res.data;
         this.totalPageEnterprise = res.total_records;
@@ -125,7 +167,7 @@ export class VotesAdminComponent {
       data: {
         enterprise: enterprise
       },
-      width: '350px'
+      width: '450px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -148,6 +190,23 @@ export class VotesAdminComponent {
         Swal.fire('Error!', err.error.message, 'error');
       }
     });
+  }
+
+  downloadExcel() {
+    this.votesAdminService.downloadExcel().subscribe({
+      next: (res: any) => {
+        this.exportToExcel(res, 'Empresas');
+      }, error: (err) => {
+        Swal.fire('Error!', 'No se pudo generar el csv', 'error');
+      }
+    });
+  }
+
+  exportToExcel(data: any[], filename: string): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, `${filename}.xlsx`);
   }
 
   ngOnDestroy(): void {

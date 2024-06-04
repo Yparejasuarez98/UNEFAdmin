@@ -4,7 +4,6 @@ import { Observable, map } from 'rxjs';
 import { ResponseData, ResponsePagination } from '../../../shared/models/response';
 import { ViewResult } from '../view-result/models/view-result';
 import { Rule } from '../models/votes-mixta';
-import { VotesMixtaDetail } from '../votes-mixta-detail/models/votes-mixta-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +34,27 @@ export class VotesMixtaService {
     }));
   }
 
-  getVotFilterAdmin(round: number, section: string, type: string, name: string, nameVote: string, nif: string, nifVotes: string, page: number, totalPage: number): Observable<ResponsePagination> {
-    return this.http.get<ResponseData>(`http://108.175.10.181:5000/api/v1/votes?round=${round}&section=${section}&type=${type}&name=${name}&name_vote=${nameVote}&nif=${nif}&nif_votes=${nifVotes}&page=${page}&total_page=${totalPage}`).pipe(map((res) => {
+  getVotFilterAdmin(round: number | null = null,
+    section: string | null = null,
+    type: string | null = null,
+    name: string | null = null,
+    nameVote: string | null = null,
+    nif: string | null = null,
+    nifVotes: string | null = null,
+    page: number,
+    totalPage: number): Observable<ResponsePagination> {
+    let url = `http://108.175.10.181:5000/api/v1/votes?page=${page}&total_page=${totalPage}`;
+
+    // Añade los parámetros opcionales si se proporcionan
+    if (round !== null && round !== 0) url += `&round=${round}`;
+    if (section !== null && section !== '') url += `&section=${section}`;
+    if (type !== null && type !== '') url += `&type=${type}`;
+    if (name !== null && name !== '') url += `&name=${name}`;
+    if (nameVote !== null && nameVote !== '') url += `&name_vote=${nameVote}`;
+    if (nif !== null && nif !== '') url += `&nif=${nif}`;
+    if (nifVotes !== null && nifVotes !== '') url += `&nif_votes=${nifVotes}`;
+
+    return this.http.get<ResponseData>(url).pipe(map((res) => {
       return res.data;
     }));;
   }

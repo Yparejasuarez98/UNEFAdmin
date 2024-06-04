@@ -23,11 +23,11 @@ import { Section } from '../votes-admin/models/votes-admin';
 export class VotesMixtaComponent implements OnInit {
 
   listSections: Sections[] = [];
-  round = new FormControl({"total_votos_round_section_emited":0,"round":1});
-  listadoRoundsEmited: { [key: string]: any } = {  };
+  round = new FormControl({ "total_votos_round_section_emited": 0, "round": 1 });
+  listadoRoundsEmited: { [key: string]: any } = {};
 
   constructor(private router: Router, private votesMixtaService: VotesMixtaService, private sharedService: SharedService) {
-
+    localStorage.setItem('round', '1');
   }
 
   ngOnInit(): void {
@@ -42,15 +42,16 @@ export class VotesMixtaComponent implements OnInit {
     this.votesMixtaService.nextRound(section.section).subscribe({
       next: () => {
         this.getInfoVotes();
-        Swal.fire('', 'Próxima ronda exitosa', 'success');
+        Swal.fire('', 'Próxima ronda', 'success');
       }, error: (err) => {
-        Swal.fire('Error!', err.message, 'success');
+        Swal.fire('Error!', 'Ha ocurrido un error al generar la siguiente ronda', 'error');
       }
     });
   }
 
   redirect(section: Sections) {
     this.sharedService.setResult(section);
+    localStorage.setItem('section', section.section);
     this.router.navigate(['/resultados']);
   }
 
@@ -68,12 +69,13 @@ export class VotesMixtaComponent implements OnInit {
     });
   }
 
-  getRoundData(section: any,index: number) {
+  getRoundData(section: any, index: number) {
     return section?.rounds?.[index].total_votos_round_section_emited;
   }
 
   getRules(event: any, section: Sections) {
     this.listadoRoundsEmited[section.section] = event;
+    localStorage.setItem('round', event.round);
     this.votesMixtaService.getRule(event.round, section.section).subscribe({
       next: (res: Rule[]) => {
         if (res.length > 0) {
@@ -92,6 +94,8 @@ export class VotesMixtaComponent implements OnInit {
 
   goToDetail(section: Section) {
     section.roundActual = this.round.value?.round;
+    localStorage.setItem('round', this.round.value?.round.toString()!);
+    localStorage.setItem('section', section.section);
     this.sharedService.setDetailMix(section);
     this.router.navigate(['/detalle-mixto']);
   }

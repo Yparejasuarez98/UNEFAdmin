@@ -4,4 +4,5 @@ export interface ViewResult {
     porcent: number;
     round: number;
     total_votes: number;
+    selected: boolean;
 }

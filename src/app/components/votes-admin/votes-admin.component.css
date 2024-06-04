@@ -101,4 +101,22 @@
     cursor: pointer;
   }
   
-  
+  .cursor {
+    cursor: pointer;
+  }
+
+  .xlsx {
+    width: 3%;
+  }
+
+  @media (max-width: 1200px) {
+    .xlsx {
+      width:5%
+    }
+  }
+
+  @media (max-width: 838px) {
+    .xlsx {
+      width:10%
+    }
+  }

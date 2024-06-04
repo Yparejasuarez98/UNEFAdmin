@@ -5,8 +5,15 @@
             <div class="row">
                 <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
                     <mat-label>Buscar Empresa</mat-label>
-                    <input type="text" matInput formControlName="company">
-                </mat-form-field>
+                    <input type="text" matInput formControlName="company" [matAutocomplete]="auto" (keyup)="getEnterpriseAutocomplete($event)">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      @for (enterprise of filteredOptions | async; track $index) {
+                      <mat-option [value]="enterprise">
+                        {{ enterprise.name }}
+                      </mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
                 <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
                     <mat-label>NIF</mat-label>
                     <input type="text" matInput formControlName="nif">
@@ -29,11 +36,15 @@
                 </mat-form-field>
                 <div class="col-lg-1 col-md-1 col-sm-6">
                     <button class="button-filter primary-color-back white" mat-raised-button (click)="getEnterprise(1)">Buscar</button>
+                    <button class="button-filter secondary-color-back white mt-3" mat-raised-button (click)="reset()">Limpiar</button>
+                </div>
+                <div align="end" class="mt-4 col-12">
+                    <img class="xlsx" src="../../../assets/imgs/xlsx.png" alt="" (click)="downloadExcel()">
                 </div>
             </div>
         </div>
     </form>
-    <table class="table mt-5">
+    <table class="table mt-3">
         <thead class="thead-dark">
             <tr>
                 <th scope="col" class="color-primary">Empresa asociada</th>
@@ -66,10 +77,10 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Vota/Delega</mat-label>
-                        <mat-select [(value)]="enterprise.type_vote" (selectionChange)="openDialog(enterprise)">
+                        <mat-select [(value)]="enterprise.type_vote" >
                             <mat-option>Selecciona una opcion</mat-option>
                             <mat-option value="default">Vota</mat-option>
-                            <mat-option value="delegate">Delega</mat-option>
+                            <mat-option value="delegate" (click)="openDialog(enterprise)">Delega</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </td>

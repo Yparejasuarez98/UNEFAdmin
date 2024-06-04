@@ -2,7 +2,7 @@
     <h1 class="secondary-color my-5">Sección Mixta</h1>
 
     <div class="header-container">
-        
+
     </div>
 
     <table class="table mt-5">
@@ -18,15 +18,14 @@
             @if (listResult.length > 0) {
             @for (result of listResult | paginate: { itemsPerPage: 10, currentPage: p }; track $index) {
             <tr>
-                <th>{{result.name}}</th>
-                <td>{{result.round}}</td>
-                <td>{{result.total_votes}}</td>
-                <td>{{result.porcent}}</td>
+                <td [ngClass]="result.selected ? 'back-green' : ''">{{result.name}}</td>
+                <td [ngClass]="result.selected ? 'back-green' : ''">{{result.round}}</td>
+                <td [ngClass]="result.selected ? 'back-green' : ''">{{result.total_votes}}</td>
+                <td [ngClass]="result.selected ? 'back-green' : ''">{{result.porcent}}</td>
             </tr>
             }
-
             } @else {
-                <p>No hay votos para mostrar</p>
+            <p>No hay votos para mostrar</p>
             }
         </tbody>
     </table>

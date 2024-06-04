@@ -18,7 +18,7 @@
                                 <mat-select [formControl]="round" (valueChange)="getRules($event, section)">
                                     <ng-container *ngIf="section.rounds">
                                         <mat-option value="0">Seleccione una ronda</mat-option>
-                                        <mat-option *ngFor="let round of section.rounds" [value]="round['round']">Ronda
+                                        <mat-option *ngFor="let round of section.rounds" [value]="round">Ronda
                                             {{round['round']}}</mat-option>
                                     </ng-container>
                                 </mat-select>
@@ -26,7 +26,7 @@
                             <div class="col-lg-4 col-md-12 col-sm-12">
                                 <div class="tittles">
                                     <div class="color-primary">
-                                        <h5>% Pase directo: {{section.porcentageDirect + '%'}}</h5>
+                                        <h5>% Pase directo: {{section.porcentageDirect | percent}}</h5>
                                     </div>
                                     <div class="color-primary">
                                         <h5>Cantidad votos Pase directo: {{section.quantityVotes}}</h5>
@@ -48,7 +48,12 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12">
                             <p class="color-primary">VOTOS EMITIDOS</p>
-                            <p class="span-text" [ngClass]="section.status ? 'white' : 'secondary-color'">0</p>
+                            <p class="span-text" *ngIf="this.listadoRoundsEmited[section.section] ; else elseBlock"  [ngClass]="section.status ? 'white' : 'secondary-color'">
+                              {{this.listadoRoundsEmited[section.section].total_votos_round_section_emited ?? 0}}
+                              </p>
+                              <ng-template #elseBlock>
+                                <p class="span-text" [ngClass]="section.status ? 'white' : 'secondary-color'">0</p>
+                              </ng-template>
                         </div>
                         <div class="col-lg-4 col-md-2 col-sm-12">
                             <div class="flex-column">

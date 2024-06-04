@@ -15,7 +15,7 @@
                     <mat-label>Sección</mat-label>
                     <mat-select formControlName="section">
                         @for (section of listSection; track $index) {
-                        <mat-option [value]="section._id">{{section.section}}</mat-option>
+                        <mat-option [value]="section">{{section.section}}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>

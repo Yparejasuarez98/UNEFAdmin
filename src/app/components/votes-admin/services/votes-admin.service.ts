@@ -11,8 +11,8 @@ export class VotesAdminService {
 
   constructor(private http: HttpClient) { }
 
-  getEnterprise(section: string, typeVote: string, page: number, totalPage: number): Observable<ResponsePagination> {
-    return this.http.get<ResponsePagination>(`http://108.175.10.181:5000/api/v1/enterprise?section=${section}&type_vote=${typeVote}&page=${page}&total_page=${totalPage}`);
+  getEnterprise(name: string | null, section: string, typeVote: string, nif: string, page: number, totalPage: number): Observable<ResponsePagination> {
+    return this.http.get<ResponsePagination>(`http://108.175.10.181:5000/api/v1/enterprise?name=${name}&section=${section}&type_vote=${typeVote}&nif=${nif}&page=${page}&total_page=${totalPage}`);
   }
 
   getEnterpriseAutocomplete(name: string | null, section: string, typeVote: string, page: number, totalPage: number): Observable<ResponsePagination> {

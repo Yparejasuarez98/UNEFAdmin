@@ -17,7 +17,6 @@
                                 <mat-label>VUELTAS</mat-label>
                                 <mat-select [formControl]="round" (valueChange)="getRules($event, section)">
                                     <ng-container *ngIf="section.rounds">
-                                        <mat-option value="0">Seleccione una ronda</mat-option>
                                         <mat-option *ngFor="let round of section.rounds" [value]="round">Ronda
                                             {{round['round']}}</mat-option>
                                     </ng-container>
@@ -48,26 +47,37 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12">
                             <p class="color-primary">VOTOS EMITIDOS</p>
-                            <p class="span-text" *ngIf="this.listadoRoundsEmited[section.section] ; else elseBlock"  [ngClass]="section.status ? 'white' : 'secondary-color'">
-                              {{this.listadoRoundsEmited[section.section].total_votos_round_section_emited ?? 0}}
-                              </p>
-                              <ng-template #elseBlock>
+                            <p class="span-text" *ngIf="listadoRoundsEmited[section.section] ; else elseBlock"
+                                [ngClass]="section.status ? 'white' : 'secondary-color'">
+                                {{listadoRoundsEmited[section.section].total_votos_round_section_emited ?? 0}}
+                            </p>
+                            <ng-template #elseBlock>
                                 <p class="span-text" [ngClass]="section.status ? 'white' : 'secondary-color'">0</p>
-                              </ng-template>
+                            </ng-template>
                         </div>
                         <div class="col-lg-4 col-md-2 col-sm-12">
                             <div class="flex-column">
                                 <span class="color-primary">VOTOS PRESENCIAL: <span class="span-text"
                                         [ngClass]="section.status ? 'white' : 'secondary-color'">{{section.vote_present}}</span></span>
                                 <span class="color-primary">VOTOS DELEGADOS: <span class="span-text"
-                                        [ngClass]="section.status ? 'white' : 'secondary-color'">{{section.vote_delegate}}</span></span>
+                                        [ngClass]="section.status ? 'white' : 'secondary-color'">{{section.vote_delegate}}</span>
+                                </span>
+                                <div class="mt-4" *ngIf="listadoRoundsEmited[section.section] ">
+                                    <mat-progress-bar mode="determinate"
+                                        [value]="(listadoRoundsEmited[section.section].total_votos_round_section_emited ) / (section.vote_present + section.vote_delegate) * 100">
+                                    </mat-progress-bar>
+                                    <p class="white">
+                                        {{(listadoRoundsEmited[section.section].total_votos_round_section_emited) /
+                                        (section.vote_present + section.vote_delegate) * 100| number:'1.2-2' }} %</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12">
                             @if (section.status) {
                             <button mat-raised-button class="primary-color-back white" (click)="redirect(section)">Ver
                                 resultados</button>
-                                <button mat-raised-button class="back-grey white mt-2" (click)="nextRound(section)">Siguiente ronda</button>
+                            <button mat-raised-button class="back-grey white mt-2"
+                                (click)="nextRound(section)">Siguiente ronda</button>
                             <div class="seeDetail color-primary">
                                 <p (click)="goToDetail(section)" class="cursor"><mat-icon>redo</mat-icon> Ver detalle de
                                     votación por socio</p>

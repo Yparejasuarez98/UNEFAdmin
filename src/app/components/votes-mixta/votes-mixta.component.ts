@@ -12,11 +12,12 @@ import { SharedService } from '../../shared/services/shared.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Section } from '../votes-admin/models/votes-admin';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-votes-mixta',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatSelectModule, MatFormFieldModule, CommonModule, ReactiveFormsModule, FormsModule, MatIconModule],
+  imports: [MatCardModule, MatButtonModule, MatSelectModule, MatFormFieldModule, CommonModule, ReactiveFormsModule, FormsModule, MatIconModule, MatProgressBarModule],
   templateUrl: './votes-mixta.component.html',
   styleUrl: './votes-mixta.component.css'
 })

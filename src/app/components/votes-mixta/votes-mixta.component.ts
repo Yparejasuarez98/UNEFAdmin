@@ -47,7 +47,7 @@ export class VotesMixtaComponent implements OnInit {
 
   redirect(section: Sections) {
     this.sharedService.setResult(section);
-    this.router.navigateByUrl('votos/resultados');
+    this.router.navigate(['votos/resultados']);
   }
 
   getInfoVotes() {

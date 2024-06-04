@@ -67,15 +67,15 @@ export class VotesAdminComponent {
   }
 
   redirect() {
-    this.router.navigateByUrl('/votos');
+    this.router.navigate(['/votos']);
   }
 
   redirectCompany() {
-    this.router.navigateByUrl('votos');
+    this.router.navigate(['votos']);
   }
 
   redirectResults() {
-    this.router.navigateByUrl('votaciones');
+    this.router.navigate(['votaciones']);
   }
 
   updateEnterpriseAsist(enterprise: Enterprise) {

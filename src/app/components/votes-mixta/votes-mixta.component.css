@@ -30,6 +30,11 @@
     border-radius: 30px;
 }
 
+.round-completed {
+    background-color: #369975 !important;
+    color: white;
+}
+
 @media (max-width: 960px) {
     .color-primary {
         font-size: 13px;

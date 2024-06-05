@@ -16,10 +16,12 @@
                             <mat-form-field class="col-lg-4 col-md-6 col-sm-12">
                                 <mat-label>VUELTAS</mat-label>
                                 <mat-select [formControl]="round" (valueChange)="getRules($event, section)">
-                                    <ng-container *ngIf="section.rounds">
-                                        <mat-option *ngFor="let round of section.rounds" [value]="round">Ronda
-                                            {{round['round']}}</mat-option>
-                                    </ng-container>
+                                    @if(section.rounds) {
+                                    @for(round of section.rounds; track round) {
+                                    <mat-option [value]="round" [ngClass]="round['completed'] ? 'round-completed' : ''">Ronda
+                                        {{round['round']}}</mat-option>
+                                    }
+                                    }
                                 </mat-select>
                             </mat-form-field>
                             <div class="col-lg-4 col-md-12 col-sm-12">
@@ -89,6 +91,11 @@
                                 (click)="nextRound(section)">Iniciar
                                 votación</button>
                             }
+                        </div>
+                        <div>
+                            <div>
+                                <p>Sección cerrada</p>
+                            </div>
                         </div>
                     </div>
                 </mat-card-content>

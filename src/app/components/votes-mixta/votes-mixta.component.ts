@@ -12,7 +12,7 @@ import { SharedService } from '../../shared/services/shared.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Section } from '../votes-admin/models/votes-admin';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-votes-mixta',
@@ -45,7 +45,7 @@ export class VotesMixtaComponent implements OnInit {
         this.getInfoVotes();
         Swal.fire('', 'Próxima ronda', 'success');
       }, error: (err) => {
-        Swal.fire('Error!', 'Ha ocurrido un error al generar la siguiente ronda', 'error');
+        Swal.fire('Información!', 'Ya se completaron todas las vocálias para esta sección', 'info');
       }
     });
   }

@@ -128,7 +128,6 @@ export class VotesAdminComponent {
         } else {
           Swal.fire('', 'No se registró asistencia.', 'info');
         }
-        // this.getEnterprise(1);
       }, error: (err) => {
         Swal.fire('Erro!', err.message, 'error');
       }

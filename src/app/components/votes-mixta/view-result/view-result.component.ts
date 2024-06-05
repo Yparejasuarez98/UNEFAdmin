@@ -22,10 +22,12 @@ export class ViewResultComponent implements OnInit {
   dataResult: any;
   listResult: ViewResult[] = [];
   section: any;
+  round: any;
   constructor(private router: Router, private votesMixtaService: VotesMixtaService, private sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.section = localStorage.getItem('section');
+    this.round = localStorage.getItem('round');
     this.sharedService.getResult().subscribe(res => {
       this.dataResult = res;
     });

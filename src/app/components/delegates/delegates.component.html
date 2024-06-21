@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="m-4">
+        <h2 class="secondary-color title">Delegados</h2>
+    </div>
+    <form [formGroup]="formDelegate">
+        <div class="d-flex">
+            <div class="row">
+                <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
+                    <mat-label>Buscar Empresa asociada delegada</mat-label>
+                    <input type="text" matInput formControlName="company" [matAutocomplete]="auto"
+                        (keyup)="getEnterpriseAutocomplete($event)">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        @for (enterprise of filteredOptions | async; track $index) {
+                        <mat-option [value]="enterprise">
+                            {{ enterprise.name }}
+                        </mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
+                    <mat-label>NIF empresa asociada delegada</mat-label>
+                    <input type="text" matInput formControlName="nif">
+                </mat-form-field>
+                <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
+                    <mat-label>Sección empresa delegada</mat-label>
+                    <mat-select formControlName="section">
+                        @for (section of listSection; track $index) {
+                        <mat-option [value]="section">{{section.section}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
+                    <mat-label>Buscar Empresa que delego</mat-label>
+                    <input type="text" matInput formControlName="companyDelegate" [matAutocomplete]="auto"
+                        (keyup)="getEnterpriseAutocompleteDelegate($event)">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnDelegate">
+                        @for (enterprise of filteredOptions | async; track $index) {
+                        <mat-option [value]="enterprise">
+                            {{ enterprise.name }}
+                        </mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-lg-3 col-md-3 col-sm-6">
+                    <mat-label>NIF empresa Asociada que delego</mat-label>
+                    <input type="text" matInput formControlName="nifAsociaDele">
+                </mat-form-field>
+                <div class="col-lg-1 col-md-1 col-sm-6">
+                    <button class="button-filter primary-color-back white" mat-raised-button
+                        (click)="getEnterprise(1)">Buscar</button>
+                    <button class="button-filter secondary-color-back white mt-3" mat-raised-button
+                        (click)="reset()">Limpiar</button>
+                </div>
+                <div align="end" class="mt-4 col-12">
+                    <img class="xlsx" src="../../../assets/imgs/xlsx.png" alt="" (click)="downloadExcel()">
+                </div>
+            </div>
+        </div>
+    </form>
+    <table class="table mt-3">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="color-primary">Empresa asociada delegada</th>
+                <th scope="col" class="color-primary">NIF empresa delegada</th>
+                <th scope="col" class="color-primary">Sección empresa delegada</th>
+                <th scope="col" class="color-primary">Votos que le delegaron</th>
+                <th scope="col" class="color-primary">Empresa asociada que le delego</th>
+                <th scope="col" class="color-primary">NIF empresa asociada que le delego</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (enterprise of listEnterprise | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage,
+            totalItems: totalPageEnterprise }; track
+            $index ) {
+            <tr>
+                <td>{{enterprise.name}}</td>
+                <td>{{enterprise.nif}}</td>
+                <td>{{enterprise.section}}</td>
+                <td>{{enterprise.email}}</td>
+                <td>{{enterprise.contry}}</td>
+                <td>{{enterprise.code}}</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
+</div>

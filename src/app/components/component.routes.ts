@@ -5,6 +5,7 @@ import { VotesMixtaComponent } from './votes-mixta/votes-mixta.component';
 import { ViewResultComponent } from './votes-mixta/view-result/view-result.component';
 import { VoteDetailComponent } from './vote-detail/vote-detail.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DelegatesComponent } from './delegates/delegates.component';
 
 export const COMPONENT_ROUTES: Routes = [
     {
@@ -28,6 +29,7 @@ export const COMPONENT_ROUTES: Routes = [
                 component: VotesMixtaDetailComponent
             },
             { path: 'votaciones', component: VotesMixtaComponent },
+            { path: 'delegados', component: DelegatesComponent },
         ]
     }
 ]

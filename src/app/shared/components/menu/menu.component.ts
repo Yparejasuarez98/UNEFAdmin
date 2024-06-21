@@ -27,6 +27,10 @@ export class MenuComponent {
     this.router.navigate(['votaciones']);
   }
 
+  redirectDelegates() {
+    this.router.navigate(['delegados']);
+  }
+
   logout() {
     localStorage.clear();
     this.router.navigate(['login']);
